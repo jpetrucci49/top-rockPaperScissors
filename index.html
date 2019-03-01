@@ -8,16 +8,47 @@
     <script>
         const computerPlay = () => {
             const number = Math.floor(Math.random() * 3)
-            switch (number) {
-                case 0:
-                    return 'Rock';
-                case 1:
-                    return 'Paper';
-                case 2:
-                    return 'Scissors';
-            }
+            return number === 0 ? 'rock' : number === 1 ? 'paper' : 'scissors';
         }
-        console.log(computerPlay());
+        const rps = (playerSelection, computerSelection) => {
+            playerSelection = playerSelection.toLowerCase();
+            return playerSelection === computerSelection
+                ? "It's a tie! No one wins!"
+                : playerSelection === 'rock'
+                    ? computerSelection === 'paper'
+                        ? 'Computer wins this round! Paper beats Rock!'
+                        : 'You win this round! Rock beats Scissors'
+                : playerSelection === 'paper'
+                    ? computerSelection === 'scissors'
+                        ? 'Computer wins this round! Scissors beats Paper'
+                        :'You win this round! Paper beats Rock'
+                : playerSelection === 'scissors'
+                    ? computerSelection === 'rock'
+                        ? 'Computer wins this round! Rock beats Scissors'
+                        : 'You win this round! Scissors beats Paper'
+                    : 'Wrong input try again with rock, paper or scissors!'
+        }
+
+        const game = () => {
+            console.log('Welcome to Rock, Paper, Scissors, Please throw one to play!');
+            let score = 0;
+            const maxScore = 5;
+            for( let i=0; i <= 4; i++) {
+                const userInput = prompt(" Enter Rock, Paper or Scissor below (not literally LOL)!");
+                const roundResult = rps( userInput , computerPlay() );
+                
+                console.log(roundResult);
+                roundResult.indexOf("You") != -1 && score ++;
+                roundResult.indexOf("wrong") != -1 && i--;
+                roundResult.indexOf("tie") != -1 && maxScore--;
+            }
+            ((maxScore-score) < score)
+                ? console.log(`You win the game by ${score} - ${maxScore-score}`)
+                : ((maxScore-score) == score)
+                    ? console.log(`You tied the game by ${score} - ${maxScore-score}`)
+                    : console.log(`You lose the game by ${score} - ${maxScore-score}`);
+        }
+        console.log(game());
     </script>
 </head>
 <body>
